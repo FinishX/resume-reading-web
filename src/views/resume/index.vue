@@ -265,8 +265,8 @@ import {findResume} from '@/api/resume'
         findResume(this.listQuery).then(response => {
           if(response.code==200){
             this.listLoading = false;
-            this.list = response.msg.list;
-            this.total = response.msg.total;
+            this.list = response.data.list;
+            this.total = response.data.total;
           }
           
         }).catch(function (error){

@@ -1,9 +1,10 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { setUser, getUser, removeUser } from '../../utils/auth'
 
 const user = {
   state: {
-    token: getToken(),
+    token: getUser(),
     name: '',
     avatar: '',
     roles: []
@@ -30,10 +31,11 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
-          const data = response.data
-          const tokenStr = data.tokenHead+data.token
-          setToken(tokenStr)
-          commit('SET_TOKEN', tokenStr)
+          const code = response.code
+          setUser(code)
+          // const tokenStr = data.tokenHead+data.token
+          // setToken(tokenStr)
+          // commit('SET_TOKEN', tokenStr)
           resolve()
         }).catch(error => {
           reject(error)
@@ -66,7 +68,8 @@ const user = {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
-          removeToken()
+          // removeToken()
+          removeUser()
           resolve()
         }).catch(error => {
           reject(error)
@@ -78,7 +81,8 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
-        removeToken()
+        // removeToken()
+        removeUser()
         resolve()
       })
     }

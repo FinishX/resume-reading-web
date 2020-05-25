@@ -1,7 +1,7 @@
 <template>
   <div style="margin-top: 50px">
-    <el-form :model="value" :rules="rules" ref="resumeInfoForm" label-width="120px" style="width: 600px" size="small">
-      <el-form-item label="简历名称：" prop="resumeName">
+    <el-form :model="value" :rules="rules" ref="resumeInfoForm" label-width="120px" style="width: 600px" size="small" enctype="multipart/form-data">
+      <el-form-item label="简历名称：" prop="resumeName" >
         <el-input v-model="value.resumeName"></el-input>
         <!-- <el-cascader
           v-model="selectProductCateValue"
@@ -235,6 +235,7 @@
       handleNext(formName){
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.$emit('finishCommit',this.isEdit);
             this.$emit('nextStep');
           } else {
             this.$message({

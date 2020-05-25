@@ -49,7 +49,7 @@ export function updatePublishStatus(params) {
 
 export function createProduct(data) {
   return request({
-    url:'/product/create',
+    url:'/resume/createResume',
     method:'post',
     data:data
   })

@@ -120,7 +120,8 @@ export default {
             this.loading = true;
             var dd = new Date().getTime();
             this.setCookie('setCookie',dd,365);
-            login(this.loginForm.username,this.loginForm.password).then(() => {
+            // login(this.loginForm.username,this.loginForm.password).then(() => {
+            this.$store.dispatch('Login', this.loginForm).then(() => {
               this.loading = false;
               setCookie("username",this.loginForm.username,15);
               setCookie("password",this.loginForm.password,15);

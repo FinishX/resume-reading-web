@@ -10,7 +10,8 @@
       v-show="showStatus[0]"
       v-model="productParam"
       :is-edit="isEdit"
-      @nextStep="nextStep">
+      @nextStep="nextStep"
+      @finishCommit="finishCommit">>
     </product-info-detail>
     <product-sale-detail
       v-show="showStatus[1]"
