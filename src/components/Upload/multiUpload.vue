@@ -5,11 +5,14 @@
       action="http://localhost:8899/image/upload"
       :show-file-list="false"
       :on-success="handleAvatarSuccess"
-      :before-upload="beforeAvatarUpload">
+      :before-upload="beforeAvatarUpload"
+      :on-preview="handlePreview">
       <img v-if="imageUrl" :src="imageUrl" class="avatar">
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
-
+  <el-dialog :visible.sync="dialogVisible">
+      <img width="100%" :src="dialogImageUrl" alt="">
+    </el-dialog>
   </div>
 </template>
 
@@ -17,10 +20,16 @@
   export default {
     data() {
       return {
-        imageUrl: ''
+        imageUrl: '',
+        dialogVisible: false,
+        dialogImageUrl:null
       };
     },
     methods: {
+      handlePreview(file) {
+        this.dialogVisible = true;
+        this.dialogImageUrl=file.url;
+      },
       handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
       },

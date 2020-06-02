@@ -11,7 +11,8 @@
       <el-form-item label="姓名：" prop="name">
         <el-input v-model="value.name"></el-input>
       </el-form-item>
-      <el-form-item label="照片：">
+      <el-form-item label="照片：" prop="pic">
+        <!-- <template ><img style="height: 80px" :src="value.pic"></template> -->
         <multi-upload v-model="selectProductPics"></multi-upload>
       </el-form-item>
       <el-form-item label="性别：" prop="sex">
@@ -94,6 +95,7 @@
   import {fetchListWithChildren} from '@/api/productCate'
   import {fetchList as fetchBrandList} from '@/api/brand'
   import {getProduct} from '@/api/product';
+  import {findResume} from '@/api/resume';
   import MultiUpload from '@/components/Upload/multiUpload'
 
   export default {
@@ -134,27 +136,8 @@
       //商品的编号
       productId(){
         return this.value.id;
-      }
-    },
-    watch: {
-      productId:function(newValue){
-        if(!this.isEdit)return;
-        if(this.hasEditCreated)return;
-        if(newValue===undefined||newValue==null||newValue===0)return;
-        this.handleEditCreated();
       },
-      selectProductCateValue: function (newValue) {
-        if (newValue != null && newValue.length === 2) {
-          this.value.productCategoryId = newValue[1];
-          this.value.productCategoryName= this.getCateNameById(this.value.productCategoryId);
-        } else {
-          this.value.productCategoryId = null;
-          this.value.productCategoryName=null;
-        }
-      }
-    },
-    methods: {
-      selectProductPics:{
+       selectProductPics:{
         get:function () {
           let pics=[];
           if(this.value.pic===undefined||this.value.pic==null||this.value.pic===''){
@@ -188,6 +171,26 @@
           }
         }
       },
+    },
+    watch: {
+      productId:function(newValue){
+        if(!this.isEdit)return;
+        if(this.hasEditCreated)return;
+        if(newValue===undefined||newValue==null||newValue===0)return;
+        this.handleEditCreated();
+      },
+      selectProductCateValue: function (newValue) {
+        if (newValue != null && newValue.length === 2) {
+          this.value.productCategoryId = newValue[1];
+          this.value.productCategoryName= this.getCateNameById(this.value.productCategoryId);
+        } else {
+          this.value.productCategoryId = null;
+          this.value.productCategoryName=null;
+        }
+      }
+    },
+    methods: {
+     
       //处理编辑逻辑
       handleEditCreated(){
         if(this.value.productCategoryId!=null){
@@ -197,7 +200,7 @@
         this.hasEditCreated=true;
       },
       getProductCateList() {
-        fetchListWithChildren().then(response => {
+        findResume().then(response => {
           let list = response.data;
           this.productCateOptions = [];
           for (let i = 0; i < list.length; i++) {

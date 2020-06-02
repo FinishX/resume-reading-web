@@ -13,7 +13,7 @@
       @nextStep="nextStep"
       @finishCommit="finishCommit">>
     </product-info-detail>
-    <product-sale-detail
+    <!-- <product-sale-detail
       v-show="showStatus[1]"
       v-model="productParam"
       :is-edit="isEdit"
@@ -33,7 +33,7 @@
       :is-edit="isEdit"
       @prevStep="prevStep"
       @finishCommit="finishCommit">
-    </product-relation-detail>
+    </product-relation-detail> -->
   </el-card>
 </template>
 <script>
@@ -42,6 +42,7 @@
   import ProductAttrDetail from './ResumeAttrDetail';
   import ProductRelationDetail from './ResumeRelationDetail';
   import {createProduct,getProduct,updateProduct} from '@/api/product';
+  import {createResume,updateResume,findResume,findOneResume} from '@/api/resume';
 
   const defaultProductParam = {
     albumPics: '',
@@ -122,7 +123,7 @@
     },
     created(){
       if(this.isEdit){
-        getProduct(this.$route.query.id).then(response=>{
+        findOneResume(this.$route.query.id).then(response=>{
           this.productParam=response.data;
         });
       }
@@ -154,7 +155,7 @@
           type: 'warning'
         }).then(() => {
           if(isEdit){
-            updateProduct(this.$route.query.id,this.productParam).then(response=>{
+            updateResume(this.$route.query.id,this.productParam).then(response=>{
               this.$message({
                 type: 'success',
                 message: '提交成功',
@@ -163,7 +164,7 @@
               this.$router.back();
             });
           }else{
-            createProduct(this.productParam).then(response=>{
+            createResume(this.productParam).then(response=>{
               this.$message({
                 type: 'success',
                 message: '提交成功',
